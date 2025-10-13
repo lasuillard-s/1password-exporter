@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/lasuillard/1password-exporter/actions/workflows/ci.yaml/badge.svg)](https://github.com/lasuillard/1password-exporter/actions/workflows/ci.yaml)
 [![codecov](https://codecov.io/gh/lasuillard/1password-exporter/graph/badge.svg?token=WTWCSXEMSR)](https://codecov.io/gh/lasuillard/1password-exporter)
+[![Docker Image Version](https://img.shields.io/docker/v/lasuillard/1password-exporter?sort=semver)](https://hub.docker.com/r/lasuillard/1password-exporter)
 
 1Password personal (not Connect) usage exporter.
 
@@ -22,7 +23,7 @@ The exporter provides download option as binary and Docker image.
 To use binary, download it from releases and run:
 
 ```bash
-$ OP_EXPORTER_VERSION="0.2.1" wget -qO ./onepassword-exporter "https://github.com/lasuillard/1password-exporter/releases/download/${OP_EXPORTER_VERSION}/onepassword-exporter-x86_64-unknown-linux-musl"
+$ OP_EXPORTER_VERSION="0.4.2" wget -qO ./onepassword-exporter "https://github.com/lasuillard/1password-exporter/releases/download/${OP_EXPORTER_VERSION}/onepassword-exporter-x86_64-unknown-linux-musl"
 $ chmod +x ./onepassword-exporter
 $ ./onepassword-exporter --help
 A simple Prometheus exporter for the 1Password
