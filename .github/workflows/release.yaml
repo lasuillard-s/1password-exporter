@@ -1,11 +1,8 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - v*
-
-permissions: read-all
+  release:
+    types: [published]
 
 env:
   OUTPUT_DIR: dist
@@ -21,12 +18,13 @@ jobs:
           - platform: ubuntu-latest
             target: x86_64-unknown-linux-gnu
 
-    name: Build (${{ matrix.target }})
+    name: build (${{ matrix.target }})
     runs-on: ${{ matrix.platform }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
 
       - name: Set up Rust
         run: |
@@ -34,7 +32,7 @@ jobs:
           rustup target add ${{ matrix.target }}
 
       - name: Manage Rust cache
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@v2.8.1
 
       - name: Build binary
         id: build
@@ -54,7 +52,6 @@ jobs:
           path: ${{ steps.build.outputs.binary-path }}
 
   release:
-    name: Release
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -70,7 +67,54 @@ jobs:
         run: ls -l --all --recursive dist
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.4.1
         with:
+          tag_name: ${{ github.event.release.tag_name }}
           generate_release_notes: true
           files: dist/dist-*/onepassword-exporter-*
+
+  publish-docker:
+    needs: release
+    runs-on: ubuntu-latest
+    environment: docker
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Prepare metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REPOSITORY }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Update Docker Hub repository description
+        uses: peter-evans/dockerhub-description@v5.0.0
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ vars.DOCKER_REPOSITORY }}
+          short-description: ${{ github.event.repository.description }}
+          enable-url-completion: true
