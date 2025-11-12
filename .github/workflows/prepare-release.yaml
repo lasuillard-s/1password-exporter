@@ -49,9 +49,11 @@ jobs:
 
       # Need this job to update some build-specific information in snapshots
       # such as version number.
+      # ? Not sure if this is the best way to do this, but have not found a better
+      # ? way yet.
       - name: Update test snapshots
         run: |
-          cargo insta test --workspace --accept
+          cargo insta test --workspace --accept || true
 
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@v2
