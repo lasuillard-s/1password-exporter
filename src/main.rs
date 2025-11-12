@@ -68,6 +68,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
 #[cfg(test)]
 mod tests {
+    use insta::assert_snapshot;
+
     use super::*;
 
     #[tokio::test]
@@ -104,7 +106,15 @@ mod tests {
             .await
             .unwrap();
 
-        assert_eq!(body, include_str!(test_dir!("expected_metrics.txt")));
+        assert_snapshot!(body);
+
+        // If snapshot assertion pass, write it to expected_metrics.txt file
+        // for documentation to use it as example of metrics output.
+        // ? Making changes from tests is somewhat considered discouraged I believe,
+        // ? but for now I'm not sure about better way to keep expected metrics output
+        // ? in sync with actual output.
+        std::fs::write("tests/expected_metrics.txt", &body)
+            .expect("Failed to write to expected_metrics.txt file");
 
         server.abort();
     }

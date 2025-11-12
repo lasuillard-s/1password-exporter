@@ -19,4 +19,5 @@ cargo binstall -y --log-level debug \
     cargo-llvm-cov \
     cargo-nextest \
     cargo-udeps \
-    cargo-watch
+    cargo-watch \
+    cargo-insta

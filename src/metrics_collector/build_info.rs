@@ -36,7 +36,7 @@ mod tests {
         // Assert
         assert_eq!(
             OP_EXPORTER_BUILDINFO
-                .get_metric_with_label_values(&["0.4.2"])?
+                .get_metric_with_label_values(&[env!("CARGO_PKG_VERSION")])?
                 .get(),
             1
         );

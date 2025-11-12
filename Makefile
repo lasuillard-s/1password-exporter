@@ -51,4 +51,5 @@ lint:  ## Run linters
 test:  ## Run tests
 	cargo llvm-cov nextest --workspace --lcov --output-path lcov.info \
 		&& cargo llvm-cov report --summary-only
+	cargo insta accept
 .PHONY: test
