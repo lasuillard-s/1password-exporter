@@ -49,7 +49,7 @@ jobs:
 
       - name: Update test snapshots
         run: |
-          cargo nextest --workspace
+          cargo nextest run --workspace || true
           cargo insta accept
 
       - name: Generate GitHub App token
