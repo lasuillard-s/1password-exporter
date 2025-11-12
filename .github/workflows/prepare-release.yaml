@@ -47,6 +47,8 @@ jobs:
           tag_no_v="${tag#v}"
           cargo set-version "${tag#v}"
 
+      # Need this job to update some build-specific information in snapshots
+      # such as version number.
       - name: Update test snapshots
         run: |
           cargo nextest run --workspace || true
