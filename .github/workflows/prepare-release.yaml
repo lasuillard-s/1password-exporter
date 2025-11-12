@@ -51,8 +51,7 @@ jobs:
       # such as version number.
       - name: Update test snapshots
         run: |
-          cargo nextest run --workspace || true
-          cargo insta accept
+          cargo insta test --workspace
 
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@v2
