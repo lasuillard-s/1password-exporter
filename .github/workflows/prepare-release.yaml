@@ -33,8 +33,13 @@ jobs:
           tag_no_v="${tag#v}"
           cargo set-version "${tag#v}"
 
-      # TODO(lasuillard): PR may fail because of test snapshot require changes;
-      #                   but I found no way to update snapshot in CI environment reliably
+      # ? Some content in test snapshots include version number, so we need to update them as well
+      - name: Update test snapshots as expected
+        run: |
+          tag="${{ inputs.tag }}"
+          tag_no_v="${tag#v}"
+          find . -type f -regextype posix-extended -regex '.*/(.*\.snap|expected_metrics.txt)$' -exec \
+            sed --regexp-extended --in-place --expression="s/version=\"(.+)\"/version=\"${tag_no_v}\"/" {} \;
 
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@v2
