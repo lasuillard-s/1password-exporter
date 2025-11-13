@@ -30,8 +30,8 @@ jobs:
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install cargo-edit
           tag="${{ inputs.tag }}"
-          tag_no_v="$tag_no_v"
-          cargo set-version "${tag#v}"
+          tag_no_v="${tag#v}"
+          cargo set-version "$tag_no_v"
 
       # ? Some content in test snapshots include version number, so we need to update them as well
       - name: Update test snapshots as expected
