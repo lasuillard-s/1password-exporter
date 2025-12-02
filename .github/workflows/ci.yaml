@@ -43,7 +43,7 @@ jobs:
         uses: Swatinem/rust-cache@v2.8.2
 
       - name: Install devtools
-        uses: taiki-e/install-action@v2.62.48
+        uses: taiki-e/install-action@v2.62.61
         with:
           tool: cargo-binstall,cargo-llvm-cov,cargo-nextest
 
