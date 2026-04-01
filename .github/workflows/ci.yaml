@@ -48,7 +48,7 @@ jobs:
           tool: cargo-binstall,cargo-llvm-cov,cargo-nextest
 
       - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v2
+        uses: 1password/install-cli-action@v3
 
       - name: Run tests
         run: |
