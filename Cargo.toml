@@ -19,7 +19,7 @@ simplelog = "0.12.2"
 tokio = { version = "1.49.0", features = ["full"] }
 
 [dev-dependencies]
-anyhow = "=1.0.86"
+anyhow = "=1.0.102"
 assert_cmd = "=2.1.1"
 insta = "=1.46.2"
 mockall = "=0.14.0"
