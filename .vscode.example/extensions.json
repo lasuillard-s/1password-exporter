@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"EditorConfig.EditorConfig",
+		"vadimcn.vscode-lldb",
+		"rust-lang.rust-analyzer"
+	]
+}

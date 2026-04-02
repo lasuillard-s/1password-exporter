@@ -1,20 +1,18 @@
 {
   "name": "lasuillard-s/1password-exporter",
-  "image": "mcr.microsoft.com/devcontainers/rust:1-1-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/rust:trixie",
   "features": {
     "ghcr.io/devcontainers-extra/features/pre-commit:2": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false
+    }
   },
   "onCreateCommand": "./.devcontainer/onCreateCommand.sh",
-  "postAttachCommand": "pre-commit install",
+  "postStartCommand": "./.devcontainer/postStartCommand.sh",
+  "updateContentCommand": "./.devcontainer/updateContentCommand.sh",
   "customizations": {
     "vscode": {
       "extensions": [
-        "ldez.ignore-files",
-        "gruntfuggly.todo-tree",
-        "redhat.vscode-yaml",
-        "tamasfe.even-better-toml",
-        "streetsidesoftware.code-spell-checker",
         "EditorConfig.EditorConfig",
         "vadimcn.vscode-lldb",
         "rust-lang.rust-analyzer"
