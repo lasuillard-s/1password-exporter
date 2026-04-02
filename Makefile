@@ -19,8 +19,11 @@ help: Makefile  ## Show help
 # =============================================================================
 install:  ## Install the app locally
 	cargo fetch
-	pre-commit install --install-hooks
 .PHONY: install
+
+init:  ## Initialize the project
+	pre-commit install --install-hooks
+.PHONY: init
 
 update:  ## Update deps and tools
 	cargo update
@@ -38,10 +41,13 @@ run:  ## Run development application
 ci: lint test  ## Run CI tasks
 .PHONY: ci
 
-format:  ## Run autoformatters
+fmt:  ## Run autoformatters
 	cargo fmt
+.PHONY: fmt
+
+fix:  ## Apply autofixes
 	cargo clippy --fix --allow-dirty --allow-staged --allow-no-vcs
-.PHONY: format
+.PHONY: fix
 
 lint:  ## Run linters
 	cargo fmt --check
