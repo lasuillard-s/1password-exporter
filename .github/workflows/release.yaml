@@ -24,7 +24,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Rust
         run: |
@@ -32,7 +32,7 @@ jobs:
           rustup target add ${{ matrix.target }}
 
       - name: Manage Rust cache
-        uses: Swatinem/rust-cache@v2.8.2
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
 
       - name: Build binary
         id: build
@@ -46,7 +46,7 @@ jobs:
           echo "binary-path=${binary_path}" >> $GITHUB_OUTPUT
 
       - name: Upload binary as artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: dist-${{ matrix.target }}
           path: ${{ steps.build.outputs.binary-path }}
@@ -59,7 +59,7 @@ jobs:
       contents: write
     steps:
       - name: Download binary artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           path: ${{ env.OUTPUT_DIR }}
 
@@ -67,7 +67,7 @@ jobs:
         run: ls -l --all --recursive dist
 
       - name: Create release
-        uses: softprops/action-gh-release@v2.5.0
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           tag_name: ${{ github.event.release.tag_name }}
           generate_release_notes: true
