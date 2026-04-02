@@ -13,13 +13,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Rust
         run: rustup show
 
       - name: Manage Rust cache
-        uses: Swatinem/rust-cache@v2.8.2
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
 
       - name: Check code formatting
         run: cargo fmt --check
@@ -34,21 +34,21 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up Rust
         run: rustup show
 
       - name: Manage Rust cache
-        uses: Swatinem/rust-cache@v2.8.2
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
 
       - name: Install devtools
-        uses: taiki-e/install-action@v2.68.15
+        uses: taiki-e/install-action@0cccd59f03b32c54f0db097c518c320bfc8c73b3 # v2.71.1
         with:
           tool: cargo-binstall,cargo-llvm-cov,cargo-nextest
 
       - name: Install 1Password CLI
-        uses: 1password/install-cli-action@v2
+        uses: 1password/install-cli-action@9a0c9dd934086b7ab1d90115d455bda1c53c2bdb # v2
 
       - name: Run tests
         run: |
@@ -56,7 +56,7 @@ jobs:
           cargo llvm-cov report --summary-only
 
       - name: Upload test results to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe # v5
         with:
           use_oidc: true
           fail_ci_if_error: false
@@ -64,7 +64,7 @@ jobs:
           files: target/nextest/default/junit.xml
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe # v5
         with:
           use_oidc: true
           fail_ci_if_error: false
