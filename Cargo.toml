@@ -21,7 +21,7 @@ tokio = { version = "1.49.0", features = ["full"] }
 [dev-dependencies]
 anyhow = "=1.0.86"
 assert_cmd = "=2.1.1"
-insta = "=1.46.2"
+insta = "=1.47.2"
 mockall = "=0.14.0"
 reqwest = "=0.13.2"
 rstest = "=0.26.1"
