@@ -4,7 +4,7 @@ WORKDIR /build
 COPY . .
 RUN cargo build --release
 
-FROM 1password/op:2@sha256:ef2454e1af295479ced26ca4516694310c4074a54f5071db9bb8e793845ce690 AS runtime
+FROM 1password/op:2@sha256:2aafc9794ab8d4062d0ac46c18760dc18c9c1dfe2e888ee61c3fa1ad340b5c28 AS runtime
 
 COPY --from=builder /build/target/release/onepassword-exporter /usr/local/bin/onepassword-exporter
 
