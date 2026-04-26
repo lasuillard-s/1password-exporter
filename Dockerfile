@@ -1,4 +1,4 @@
-FROM rustlang/rust:nightly-bookworm-slim@sha256:9aba8b2c61f670860215f020f993bcc4f8a5138f31865fa697a4397769490c90 AS builder
+FROM rustlang/rust:nightly-bookworm-slim@sha256:6a2e32a5c5183c21808203cfbddb594e19bf3f05b8962bb88faa8d31de4dd62d AS builder
 
 WORKDIR /build
 COPY . .
