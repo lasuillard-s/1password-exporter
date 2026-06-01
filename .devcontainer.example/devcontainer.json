@@ -1,6 +1,6 @@
 {
   "name": "lasuillard-s/1password-exporter",
-  "image": "mcr.microsoft.com/devcontainers/rust:trixie",
+  "image": "mcr.microsoft.com/devcontainers/rust:2.0.11-1-trixie",
   "features": {
     "ghcr.io/devcontainers-extra/features/pre-commit:2": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
