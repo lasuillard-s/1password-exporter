@@ -1,4 +1,4 @@
-FROM rustlang/rust:nightly-slim-trixie-2026-06-01 AS builder
+FROM rustlang/rust:nightly-trixie-slim-2026-06-01 AS builder
 
 WORKDIR /build
 COPY . .
