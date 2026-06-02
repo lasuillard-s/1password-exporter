@@ -1,10 +1,10 @@
-FROM rustlang/rust:nightly-trixie-slim-2026-06-01 AS builder
+FROM rustlang/rust:nightly-trixie-slim-2026-06-01@sha256:f6e6b7f6a48b32045e389730a75ace6a949bcedd4098c8acbdc26b9fd8f614b0 AS builder
 
 WORKDIR /build
 COPY . .
 RUN cargo build --release
 
-FROM debian:trixie-slim AS runtime
+FROM debian:trixie-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8 AS runtime
 
 RUN apt update --yes && apt install --yes \
     ca-certificates \
