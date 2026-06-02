@@ -4,7 +4,7 @@ WORKDIR /build
 COPY . .
 RUN cargo build --release
 
-FROM debian:trixie-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8 AS runtime
+FROM debian:trixie-20260518-slim@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8 AS runtime
 
 RUN apt update --yes && apt install --yes \
     ca-certificates \
