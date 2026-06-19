@@ -33,8 +33,8 @@ jobs:
       - name: Check code formatting
         run: rustup run nightly cargo fmt --check
 
-  miri:
-    name: Miri UB Check
+  ub-check:
+    name: UB Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
