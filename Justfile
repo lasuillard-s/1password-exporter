@@ -30,8 +30,8 @@ alias fmt := format
 
 # Run all linters
 lint:
-    rustup run nightly cargo fmt --check
     cargo clippy --all-targets --all-features -- --deny warnings
+    rustup run nightly cargo fmt --check
 
 # Run Undefined Behavior Check (Miri)
 ub-check:

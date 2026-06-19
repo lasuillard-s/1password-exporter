@@ -27,11 +27,11 @@ jobs:
       - name: Install nightly toolchain
         run: rustup toolchain install nightly --profile minimal --component rustfmt
 
-      - name: Check code formatting
-        run: rustup run nightly cargo fmt --check
-
       - name: Lint code
         run: cargo clippy --all-targets --all-features -- --deny warnings
+
+      - name: Check code formatting
+        run: rustup run nightly cargo fmt --check
 
   miri:
     name: Miri Undefined Behavior Check
