@@ -40,6 +40,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[cfg(not(miri))]
     fn test_command_executor() {
         // Arrange
         let executor = OpCommandExecutor::new("op".to_string(), None);

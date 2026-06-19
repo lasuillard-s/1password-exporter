@@ -1,2 +1,5 @@
+[profile.default]
+fail-fast = false
+
 [profile.default.junit]
 path = "junit.xml"
