@@ -34,7 +34,7 @@ jobs:
         run: rustup run nightly cargo fmt --check
 
   miri:
-    name: Miri Undefined Behavior Check
+    name: Miri UB Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
