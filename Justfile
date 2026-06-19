@@ -20,7 +20,7 @@ alias up := update
 # =============================================================================
 
 # Run all checks
-ci: lint test
+ci: lint ub-check test
 
 # Autoformat code
 format:
@@ -30,12 +30,16 @@ alias fmt := format
 
 # Run all linters
 lint:
+    rustup run nightly cargo fmt --check
     cargo clippy --all-targets --all-features -- --deny warnings
+
+# Run Undefined Behavior Check (Miri)
+ub-check:
+    MIRIFLAGS='-Zmiri-disable-isolation' \
+        rustup run nightly cargo miri nextest run --workspace --all-targets --all-features
 
 # Run all tests
 test:
-    MIRIFLAGS='-Zmiri-disable-isolation' \
-        rustup run nightly cargo miri nextest run --workspace --all-targets --all-features
     cargo llvm-cov nextest --workspace --all-targets --all-features --lcov --output-path lcov.info
     cargo llvm-cov report --summary-only
 
