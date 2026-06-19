@@ -36,11 +36,11 @@ impl CommandExecutor for OpCommandExecutor {
 }
 
 #[cfg(test)]
+#[cfg(not(miri))]
 mod tests {
     use super::*;
 
     #[test]
-    #[cfg(not(miri))]
     fn test_command_executor() {
         // Arrange
         let executor = OpCommandExecutor::new("op".to_string(), None);
