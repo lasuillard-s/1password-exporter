@@ -24,6 +24,9 @@ jobs:
       - name: Set up Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
 
+      - name: Install nightly toolchain
+        run: rustup toolchain install nightly --profile minimal
+
       - name: Check code formatting
         run: rustup run nightly cargo fmt --check
 
@@ -42,6 +45,9 @@ jobs:
 
       - name: Set up Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
+
+      - name: Install nightly toolchain
+        run: rustup toolchain install nightly --profile minimal
 
       - name: Install devtools
         uses: taiki-e/install-action@4bc351f7f2614e48088386e2a0ad917ca3a7e4ba # v2.81.5
