@@ -8,20 +8,20 @@ repos:
 
   - repo: local
     hooks:
+      - id: cargo-clippy
+        name: cargo clippy
+        language: system
+        types: [rust]
+        pass_filenames: false
+        entry: cargo clippy
+        args: [--fix, --allow-dirty, --, --deny, warnings]
+
       - id: cargo-fmt
         name: cargo fmt (nightly)
         language: system
         types: [rust]
         pass_filenames: false
         entry: rustup run nightly cargo fmt
-
-      - id: cargo-clippy
-        name: cargo clippy
-        language: system
-        types: [rust]
-        pass_filenames: false
-        entry: cargo clippy --
-        args: [--deny, warnings]
 
       - id: cargo-nextest
         name: cargo nextest
