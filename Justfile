@@ -20,18 +20,18 @@ alias up := update
 # =============================================================================
 
 # Run all checks
-ci: lint ub-check test
+ci: (format "--check") lint ub-check test
 
 # Autoformat code
-format:
-    rustup run nightly cargo fmt
+[arg("check", long, value="--check")]
+format check="":
+    rustup run nightly cargo fmt {{check}}
 
 alias fmt := format
 
 # Run all linters
 lint:
     cargo clippy --all-targets --all-features -- --deny warnings
-    rustup run nightly cargo fmt --check
 
 # Run Undefined Behavior Check (Miri)
 ub-check:
