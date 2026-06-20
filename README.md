@@ -1,6 +1,7 @@
 # 1password-exporter
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/gh/lasuillard-s/1password-exporter/graph/badge.svg?token=WTWCSXEMSR)](https://codecov.io/gh/lasuillard-s/1password-exporter)
 [![Docker Image Version](https://img.shields.io/docker/v/lasuillard/1password-exporter?sort=semver)](https://hub.docker.com/r/lasuillard/1password-exporter)
 
 Prometheus metrics exporter for 1Password.
