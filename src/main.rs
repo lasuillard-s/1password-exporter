@@ -30,7 +30,7 @@ struct Args {
     #[arg(short, long, default_value_t = 9999)]
     port: u16,
 
-    /// Metrics to collect. Only metrics not consuming API rate enabled by default.
+    /// Metrics to collect. Only metrics that do not consume API rate limits are enabled by default
     #[arg(short, long, num_args = 1.., value_delimiter = ',', default_values = ["account", "group", "user", "service-account", "build-info"])]
     metrics: Vec<Metrics>,
 
@@ -64,50 +64,4 @@ async fn _main(args: Args) -> Result<(), Box<dyn std::error::Error + Send + Sync
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let args = Args::parse();
     _main(args).await
-}
-
-#[cfg(test)]
-mod tests {
-    use insta::assert_snapshot;
-
-    use super::*;
-
-    #[tokio::test]
-    async fn test_metrics_serving() {
-        let port = test_helper::get_random_port();
-        let server = tokio::spawn(async move {
-            let args = Args {
-                log_level: LevelFilter::Debug,
-                host: "127.0.0.1".to_string(),
-                port,
-                op_path: test_helper::MOCK_OP.to_string(),
-                service_account_token: Some("ops_blahblah".to_string()),
-                metrics: vec![
-                    Metrics::Account,
-                    Metrics::BuildInfo,
-                    Metrics::Document,
-                    Metrics::Group,
-                    Metrics::Item,
-                    Metrics::ServiceAccount,
-                    Metrics::User,
-                    Metrics::Vault,
-                ],
-            };
-            _main(args).await.unwrap();
-        });
-
-        // Wait for the server to start
-        tokio::time::sleep(std::time::Duration::from_secs(3)).await;
-
-        let body = reqwest::get(format!("http://localhost:{port}/metrics"))
-            .await
-            .unwrap()
-            .text()
-            .await
-            .unwrap();
-
-        assert_snapshot!(body);
-
-        server.abort();
-    }
 }

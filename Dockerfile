@@ -1,4 +1,4 @@
-FROM rustlang/rust:nightly-trixie-slim-2026-06-01@sha256:f6e6b7f6a48b32045e389730a75ace6a949bcedd4098c8acbdc26b9fd8f614b0 AS builder
+FROM rust:1.96-slim-trixie@sha256:3b05f7c617a200c41c3506097f0d15fc193a1c93bfd8f141007b47cac8f95d3c AS builder
 
 WORKDIR /build
 COPY . .

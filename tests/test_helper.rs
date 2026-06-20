@@ -1,5 +1,5 @@
+//! Test helper utilities for unit and integration tests.
 #![allow(dead_code)]
-/// Test helper utilities for unit and integration tests.
 
 pub(crate) const MOCK_OP: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/tests/mock_op.bash");
 

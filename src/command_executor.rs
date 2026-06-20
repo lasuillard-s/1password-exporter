@@ -36,6 +36,7 @@ impl CommandExecutor for OpCommandExecutor {
 }
 
 #[cfg(test)]
+#[cfg(not(miri))]
 mod tests {
     use super::*;
 

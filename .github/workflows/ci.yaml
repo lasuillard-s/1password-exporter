@@ -6,53 +6,89 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
-      - name: Set up Rust
-        run: rustup show
+      - name: Set up Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
 
-      - name: Manage Rust cache
-        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+      - name: Install nightly toolchain
+        run: rustup toolchain install nightly --profile minimal --component rustfmt
 
       - name: Check code formatting
-        run: cargo fmt --check
+        run: rustup run nightly cargo fmt --check
 
       - name: Lint code
-        run: cargo clippy
+        run: cargo clippy --all-targets --all-features -- --deny warnings
 
-  test:
+  ub-check:
+    name: UB Check
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: read
-      id-token: write
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-
-      - name: Set up Rust
-        run: rustup show
-
-      - name: Manage Rust cache
-        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
-
-      - name: Install devtools
-        uses: taiki-e/install-action@4bc351f7f2614e48088386e2a0ad917ca3a7e4ba # v2.81.5
-        with:
-          tool: cargo-binstall,cargo-llvm-cov,cargo-nextest
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@8d006a0d0a4fd505af7f7ce589e7f768385ff5e4 # v3
 
+      - name: Set up Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
+
+      - name: Install nightly toolchain
+        run: rustup toolchain install nightly --profile minimal --component miri
+
+      - name: Install devtools
+        uses: taiki-e/install-action@4bc351f7f2614e48088386e2a0ad917ca3a7e4ba # v2.81.5
+        with:
+          tool: cargo-nextest
+
+      - name: Run tests with Miri
+        env:
+          MIRIFLAGS: '-Zmiri-disable-isolation'
+        run: |
+          rustup run nightly cargo miri \
+            nextest run --workspace --all-targets --all-features
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@8d006a0d0a4fd505af7f7ce589e7f768385ff5e4 # v3
+
+      - name: Set up Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
+
+      - name: Install devtools
+        uses: taiki-e/install-action@4bc351f7f2614e48088386e2a0ad917ca3a7e4ba # v2.81.5
+        with:
+          tool: cargo-llvm-cov,cargo-nextest
+
       - name: Run tests
         run: |
-          cargo llvm-cov nextest --workspace --lcov --output-path lcov.info
+          cargo llvm-cov nextest --workspace --all-targets --all-features --lcov --output-path lcov.info
           cargo llvm-cov report --summary-only
 
       - name: Upload test results to Codecov

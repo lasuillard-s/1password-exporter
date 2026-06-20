@@ -23,16 +23,13 @@
       {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            git
-            gnumake
             pre-commit
+            just
             rustup
             cargo
             cargo-llvm-cov
             cargo-nextest
-            cargo-udeps
             cargo-watch
-            cargo-insta
             _1password-cli
           ];
         };

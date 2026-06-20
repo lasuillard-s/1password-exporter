@@ -7,8 +7,13 @@ on:
         description: Semver-style tag for release (e.g., v1.0.0)
         required: true
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   create-pr:
+    name: Create PR
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -22,7 +27,8 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       # https://github.com/killercup/cargo-edit/issues/864
       - name: Set version
@@ -38,8 +44,8 @@ jobs:
         run: |
           tag="${{ inputs.tag }}"
           tag_no_v="${tag#v}"
-          find . -type f -regextype posix-extended -regex '.*/(.*\.snap|expected_metrics.txt)$' -exec \
-            sed --regexp-extended --in-place --expression="s/version=\"(.+)\"/version=\"${tag_no_v}\"/" {} \;
+          sed --regexp-extended --in-place --expression="s/version=\"(.+)\"/version=\"${tag_no_v}\"/" \
+            tests/expected_metrics.txt
 
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
@@ -54,5 +60,17 @@ jobs:
           token: ${{ steps.generate-token.outputs.token }}
           sign-commits: true
           title: Release ${{ inputs.tag }}
+          body: |
+            This pull request prepares the repository for the ${{ inputs.tag }} release.
+
+            ### Changes
+            - Bumps package version to `${{ inputs.tag }}` (without creating a git tag)
+            - Update version in string `tests/expected_metrics.txt` to new version
+            - Ready for review and merge
+
+            ### Next steps
+            1. Review and merge this PR
+            2. Create and publish a GitHub release with tag `${{ inputs.tag }}`
+            3. The release workflow will automatically build and publish the Docker image to Docker Hub
           branch: release/${{ inputs.tag }}
           delete-branch: true

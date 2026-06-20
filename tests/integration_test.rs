@@ -1,32 +1,29 @@
-use std::{process::Command, thread};
-
+#![cfg(not(miri))]
 use assert_cmd::cargo::cargo_bin;
 use test_helper::MOCK_OP;
+use tokio::process::Command;
 
 mod test_helper;
 
 #[tokio::test]
 async fn test_metrics_serving() {
     let port = test_helper::get_random_port();
-    thread::scope(|s| {
-        s.spawn(|| {
-            Command::new(cargo_bin!(env!("CARGO_PKG_NAME")))
-                .args(&[
-                    "--log-level",
-                    "DEBUG",
-                    "--port",
-                    &port.to_string(),
-                    "--op-path",
-                    MOCK_OP,
-                    "--metrics",
-                    "account,build-info,document,group,item,service-account,user,vault",
-                    "--service-account-token",
-                    "ops_blahblah",
-                ])
-                .spawn()
-                .expect("Failed to start the exporter process");
-        });
-    });
+    let _child = Command::new(cargo_bin!(env!("CARGO_PKG_NAME")))
+        .args([
+            "--log-level",
+            "DEBUG",
+            "--port",
+            &port.to_string(),
+            "--op-path",
+            MOCK_OP,
+            "--metrics",
+            "account,build-info,document,group,item,service-account,user,vault",
+            "--service-account-token",
+            "ops_blahblah",
+        ])
+        .kill_on_drop(true)
+        .spawn()
+        .expect("Failed to start the exporter process");
 
     // Wait for the server to start
     tokio::time::sleep(std::time::Duration::from_secs(3)).await;

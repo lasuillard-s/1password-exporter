@@ -9,7 +9,7 @@ services:
     command: --log-level DEBUG --host 0.0.0.0 --metrics account build-info document group item service-account user vault
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3
     extra_hosts:
       - host.docker.internal:host-gateway
     ports:
@@ -23,7 +23,7 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.0-slim
     ports:
       - ${GRAFANA_HOST:-127.0.0.1}:${GRAFANA_PORT:-3000}:3000
     volumes:
@@ -75,7 +75,7 @@ configs:
           - targets: []
           scheme: http
           timeout: 10s
-          api_version: v1
+          api_version: v2
       scrape_configs:
       - job_name: onepassword
         honor_timestamps: true
