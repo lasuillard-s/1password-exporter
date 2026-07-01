@@ -43,6 +43,7 @@ pub(crate) fn command_executor() -> MockCommandExecutor {
             vec!["vault", "list", "--format", "json"],
             include_str!(test_dir!("fixtures/vault.json")),
         ),
+        (vec!["--version"], "2.34.0"),
     ];
 
     for (args, output) in mock_commands {

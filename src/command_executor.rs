@@ -36,15 +36,16 @@ impl CommandExecutor for OpCommandExecutor {
 }
 
 #[cfg(test)]
-#[cfg(not(miri))]
 mod tests {
-    use super::*;
+    use rstest::*;
 
-    #[test]
-    fn test_command_executor() {
+    use super::*;
+    use crate::testing::command_executor;
+
+    #[rstest]
+    fn test_command_executor(command_executor: MockCommandExecutor) {
         // Arrange
-        let executor = OpCommandExecutor::new("op".to_string(), None);
-        let output = executor.exec(vec!["--version"]).unwrap();
+        let output = command_executor.exec(vec!["--version"]).unwrap();
 
         // Act
         let version_info = output.trim().split(".").collect::<Vec<&str>>();
