@@ -8,6 +8,12 @@
       "matchManagers": ["dockerfile"],
       "matchPackageNames": ["rust"],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?-(?<compatibility>.*)$"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["rust"],
+      "matchUpdateTypes": ["patch"],
+      "enabled": false
     }
   ]
 }
