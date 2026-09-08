@@ -10,7 +10,7 @@ http-body-util = "=0.1.5"
 hyper = { version = "=1.10.1", features = ["http1", "server"] }
 hyper-util = { version = "=0.1.20", features = ["tokio"] }
 lazy_static = "=1.5.0"
-log = "=0.4.33"
+log = "=0.4.34"
 prometheus = "=0.14.0"
 regex = "=1.13.1"
 serde = { version = "=1.0.229", features = ["derive"] }
