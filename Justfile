@@ -9,6 +9,7 @@ install:
 
 # Update deps and tools
 update:
+    nix flake update
     rustup update
     cargo update
     pre-commit autoupdate
