@@ -17,7 +17,7 @@ This project uses the following tech stack:
 - [Rust](https://www.rust-lang.org) 2021 edition
 - [clap](https://docs.rs/clap/latest/clap/) for CLI argument parsing
 - [hyper](https://hyper.rs/) to serve metrics over HTTP
-- [rustfmt](https://github.com/rust-lang/rustfmt), [clippy](https://doc.rust-lang.org/clippy/), [cargo-nextest](https://nexte.st/) and [Miri](https://github.com/rust-lang/miri) for code quality and testing
+- [rustfmt](https://github.com/rust-lang/rustfmt), [clippy](https://doc.rust-lang.org/clippy/) and [cargo-nextest](https://nexte.st/) for code quality and testing
 
 ### 📂 Key directory structure
 
