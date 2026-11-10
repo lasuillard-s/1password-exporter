@@ -1,4 +1,3 @@
-#![cfg(not(miri))]
 use assert_cmd::cargo::cargo_bin;
 use test_helper::MOCK_OP;
 use tokio::process::Command;

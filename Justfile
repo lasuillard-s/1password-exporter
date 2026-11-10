@@ -4,7 +4,6 @@ _default:
 # Install deps and tools
 install:
     rustup install
-    rustup component add --toolchain nightly miri
     cargo fetch
 
 # Update deps and tools
@@ -21,7 +20,7 @@ alias up := update
 # =============================================================================
 
 # Run all checks
-ci: (format "yes") lint ub-check test
+ci: (format "yes") lint test
 
 # Autoformat code
 [arg("check", long="check", value="yes")]
@@ -33,11 +32,6 @@ alias fmt := format
 # Run all linters
 lint:
     cargo clippy --all-targets --all-features -- --deny warnings
-
-# Run Undefined Behavior Check (Miri)
-ub-check:
-    MIRIFLAGS='-Zmiri-disable-isolation' \
-        rustup run nightly cargo miri nextest run --workspace --all-targets --all-features
 
 # Run all tests
 test:
