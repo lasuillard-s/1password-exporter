@@ -5,6 +5,7 @@
   ],
   "packageRules": [
     {
+      "description": "Preserve Rust image minor-version precision and compatibility suffixes",
       "matchManagers": [
         "dockerfile"
       ],
@@ -12,41 +13,6 @@
         "rust"
       ],
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)-(?<compatibility>.*)$"
-    },
-    {
-      "description": "Group non-major Rust runtime updates",
-      "matchManagers": [
-        "cargo"
-      ],
-      "matchDepTypes": [
-        "dependencies",
-        "build-dependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "groupName": "Rust Runtime (non-major)",
-      "groupSlug": "rust-runtime"
-    },
-    {
-      "description": "Keep trusted Rust runtime updates in a separate automerge group",
-      "matchManagers": [
-        "cargo"
-      ],
-      "matchDepTypes": [
-        "dependencies",
-        "build-dependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchJsonata": [
-        "automerge = true"
-      ],
-      "groupName": "Trusted Rust Runtime (non-major)",
-      "groupSlug": "trusted-rust-runtime"
     }
   ]
 }
