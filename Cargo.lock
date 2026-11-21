@@ -943,7 +943,6 @@ dependencies = [
  "log",
  "mockall",
  "prometheus",
- "regex",
  "reqwest",
  "rstest",
  "serde",
